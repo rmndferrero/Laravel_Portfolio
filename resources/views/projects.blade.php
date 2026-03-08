@@ -1,21 +1,96 @@
 @extends('layouts.app')
 
 @section('content')
-<h2 class="mb-4">My Projects</h2>
+<main class="w-full max-w-5xl mx-auto px-6 py-12">
 
-<div class="row">
-    @foreach($projects as $project)
-        <div class="col-md-6 mb-4">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">{{ $project->title }}</h5>
-                    <p class="card-text">{{ $project->description }}</p>
+    {{-- Hero Section --}}
+    <div class="flex flex-col gap-4 mb-16">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary w-fit">
+            <span class="material-symbols-outlined text-sm">rocket_launch</span>
+            <span class="text-xs font-bold uppercase tracking-wider">Portfolio</span>
+        </div>
+        <h1 class="text-5xl font-black tracking-tight leading-tight">
+            My <span class="text-primary">Projects</span>
+        </h1>
+        <p class="text-slate-600 dark:text-slate-400 text-lg max-w-2xl leading-relaxed">
+            A collection of work spanning web development, games, research, and more.
+        </p>
+    </div>
+
+    {{-- Projects Grid --}}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        @foreach($projects as $project)
+        <div class="group flex flex-col rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-lg hover:border-primary transition-all duration-300 overflow-hidden">
+
+            {{-- Card Header Accent --}}
+            <div class="h-1.5 w-full bg-gradient-to-r from-primary to-blue-400"></div>
+
+            <div class="flex flex-col flex-1 p-6 gap-4">
+
+                {{-- Title --}}
+                <div class="flex items-start justify-between gap-3">
+                    <h5 class="text-lg font-bold text-slate-900 dark:text-slate-100 leading-tight">
+                        {{ $project->title }}
+                    </h5>
+                    <span class="material-symbols-outlined text-slate-300 dark:text-slate-600 group-hover:text-primary transition-colors shrink-0">
+                        folder_open
+                    </span>
                 </div>
-                <div class="card-footer bg-white border-top-0">
-                    <a href="{{ $project->github_link }}" class="btn btn-outline-primary btn-sm" target="_blank">View on GitHub</a>
+
+                {{-- Description --}}
+                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed flex-1">
+                    {{ $project->description }}
+                </p>
+
+                {{-- Technologies --}}
+                @if($project->technology)
+                <div class="flex flex-wrap gap-2">
+                    @foreach(explode(',', $project->technology) as $tech)
+                    <span class="px-2.5 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold">
+                        {{ trim($tech) }}
+                    </span>
+                    @endforeach
                 </div>
+                @endif
+
+            </div>
+
+            {{-- Card Footer --}}
+            <div class="px-6 pb-6">
+                <a href="{{ $project->github_link }}"
+                   target="_blank"
+                   class="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-primary hover:text-white hover:border-primary transition-all">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+                    </svg>
+                    View on GitHub
+                </a>
+            </div>
+
+        </div>
+        @endforeach
+    </div>
+
+    {{-- Stats Footer --}}
+    <div class="mt-20 border-t border-slate-200 dark:border-slate-800 pt-12 flex flex-col md:flex-row justify-between items-center gap-6">
+        <div class="flex items-center gap-8">
+            <div class="flex flex-col">
+                <span class="text-2xl font-bold text-primary">{{ $projects->count() }}</span>
+                <span class="text-sm text-slate-500 uppercase tracking-tighter">Projects</span>
+            </div>
+            <div class="w-[1px] h-10 bg-slate-200 dark:bg-slate-800"></div>
+            <div class="flex flex-col">
+                <span class="text-2xl font-bold text-primary">
+                    {{ $projects->filter(fn($p) => $p->github_link)->count() }}
+                </span>
+                <span class="text-sm text-slate-500 uppercase tracking-tighter">Open Source</span>
             </div>
         </div>
-    @endforeach
-</div>
+        <a href="{{ route('contact') }}"
+           class="px-8 py-3 bg-primary text-white font-bold rounded-xl hover:shadow-lg transition-all active:scale-95">
+            Work With Me
+        </a>
+    </div>
+
+</main>
 @endsection
