@@ -20,31 +20,50 @@
     {{-- Contact Cards Grid --}}
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-16">
 
+        {{-- Toast Notification --}}
+        <div id="copy-toast"
+             class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 px-5 py-3 rounded-xl bg-slate-900 text-white text-sm font-semibold shadow-xl opacity-0 pointer-events-none transition-all duration-300">
+            <span class="material-symbols-outlined text-green-400 text-base">check_circle</span>
+            <span id="copy-toast-msg">Copied!</span>
+        </div>
+
         {{-- Email --}}
-        <a href="mailto:{{ $contact->email }}"
-           class="group flex items-center gap-5 p-6 rounded-2xl bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-primary transition-all duration-300">
+        <div onclick="copyToClipboard('{{ $contact->email }}', 'Email address copied!')"
+             class="group flex items-center gap-5 p-6 rounded-2xl bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-primary transition-all duration-300 cursor-pointer select-none">
             <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-all">
                 <span class="material-symbols-outlined">mail</span>
             </div>
             <div class="min-w-0">
-                <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Email</p>
+                <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Email <span class="normal-case font-normal text-slate-300 dark:text-slate-600">· click to copy</span></p>
                 <p class="text-base font-semibold text-slate-900 dark:text-slate-100 truncate">{{ $contact->email }}</p>
             </div>
-            <span class="material-symbols-outlined text-slate-300 dark:text-slate-700 group-hover:text-primary ml-auto transition-colors">arrow_forward</span>
-        </a>
+            <span class="material-symbols-outlined text-slate-300 dark:text-slate-700 group-hover:text-primary ml-auto transition-colors">content_copy</span>
+        </div>
 
         {{-- Phone --}}
-        <div class="group flex items-center gap-5 p-6 rounded-2xl bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-primary transition-all duration-300">
+        @if($contact->phone)
+        <div onclick="copyToClipboard('{{ $contact->phone }}', 'Phone number copied!')"
+             class="group flex items-center gap-5 p-6 rounded-2xl bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-primary transition-all duration-300 cursor-pointer select-none">
             <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-all">
                 <span class="material-symbols-outlined">call</span>
             </div>
             <div class="min-w-0">
+                <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Phone <span class="normal-case font-normal text-slate-300 dark:text-slate-600">· click to copy</span></p>
+                <p class="text-base font-semibold text-slate-900 dark:text-slate-100">{{ $contact->phone }}</p>
+            </div>
+            <span class="material-symbols-outlined text-slate-300 dark:text-slate-700 group-hover:text-primary ml-auto transition-colors">content_copy</span>
+        </div>
+        @else
+        <div class="group flex items-center gap-5 p-6 rounded-2xl bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 shadow-sm">
+            <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-400">
+                <span class="material-symbols-outlined">call</span>
+            </div>
+            <div class="min-w-0">
                 <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Phone</p>
-                <p class="text-base font-semibold text-slate-900 dark:text-slate-100">
-                    {{ $contact->phone ?? 'Not provided' }}
-                </p>
+                <p class="text-base font-semibold text-slate-400">Not provided</p>
             </div>
         </div>
+        @endif
 
         {{-- GitHub --}}
         <a href="{{ $contact->github_url }}" target="_blank"
@@ -97,4 +116,20 @@
     </div>
 
 </main>
+<script>
+    function copyToClipboard(text, message) {
+        navigator.clipboard.writeText(text).then(() => {
+            const toast = document.getElementById('copy-toast');
+            const msg = document.getElementById('copy-toast-msg');
+            msg.textContent = message;
+            toast.classList.remove('opacity-0', 'pointer-events-none');
+            toast.classList.add('opacity-100');
+            setTimeout(() => {
+                toast.classList.remove('opacity-100');
+                toast.classList.add('opacity-0', 'pointer-events-none');
+            }, 2500);
+        });
+    }
+</script>
+
 @endsection
