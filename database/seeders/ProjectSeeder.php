@@ -13,23 +13,31 @@ class ProjectSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('projects')->insert([
+
+        DB::table('projects')->where('title', 'Gamifying Tourism Experience Through a Location-Based AR App in Bacolod City')->delete();
+        DB::table('projects')->where('title', 'TIROHAY ISPISHIP')->delete();
+        // Project 1
+        DB::table('projects')->updateOrInsert(
+            ['title' => 'SupplyRoot'], // Checks if this title exists
             [
-                'title' => 'Gamifying Tourism Experience Through a Location-Based AR App in Bacolod City',
-                'description' => 'A thesis project developing a location-based application. Built collaboratively with Cassandra Nicole Abrasia, David Joshua Albos, and Napoleon III Torrefiel Cortez.',
-                'technology' => 'GPS, Mobile Technologies',
+                'description' => 'A Inventory Management System focusing on farm supplies.',
+                'technology' => 'HTML, CSS, JavaScript, PHP',
                 'github_link' => '#',
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
+                'updated_at' => now() // Notice created_at is handled automatically by Laravel here
+            ]
+        );
+
+        // Project 2
+        DB::table('projects')->updateOrInsert(
+            ['title' => 'Crystal Guard'], // Checks if this title exists
             [
-                'title' => 'TIROHAY ISPISHIP',
-                'description' => 'A 2D pixel art game.',
+                'description' => 'A 3D pixel themed dungeon dive game.',
                 'technology' => 'Unity, C#',
-                'github_link' => '#',
-                'created_at' => now(),
+                'github_link' => 'https://github.com/rmndferrero/Crystal_Guard',
                 'updated_at' => now()
             ]
-        ]);
+        );
     }
 }
+
+

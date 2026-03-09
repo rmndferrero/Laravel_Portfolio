@@ -16,6 +16,7 @@ class ProfileSeeder extends Seeder
                 'bio' => 'A dedicated Computer Science student with a passion for game development, data analysis, and creating interactive experiences. When not coding, I enjoy gardening and cultivating plants like marigolds, sunflowers, and Tabasco peppers.',
                 'created_at' => now(),
                 'updated_at' => now(),
+                'avatar' => 'avatars/me.jpeg'
             ]);
         }
 }

@@ -14,7 +14,7 @@ class PortfolioController extends Controller
     public function home()
     {
         // Grabs the first profile record since you only have one
-        $profile = Profile::first(); 
+        $profile = Profile::find(3);
         return view('home', compact('profile'));
     }
 

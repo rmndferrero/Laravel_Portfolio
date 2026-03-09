@@ -13,13 +13,17 @@ class ContactSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('contacts')->insert([
-        'email' => 'ferrero@usls.edu.ph', // Update with actual email
-        'phone' => '+63 900 000 0000',
-        'github_url' => 'https://github.com/yourusername',
-        'linkedin_url' => 'https://linkedin.com/in/yourusername',
-        'created_at' => now(),
-        'updated_at' => now(),
-    ]);
+
+        DB::table('contacts')->where('email', 'ferrero@usls.edu.ph')->delete();
+
+        DB::table('contacts')->updateOrInsert(
+                    ['email' => 'reymonddelacruzferrero@gmail.com'], // Checks if this email exists
+                    [
+                        'phone' => '+63 945 724 7855',
+                        'github_url' => 'https://github.com/rmndferrero',
+                        'linkedin_url' => 'https://www.linkedin.com/in/reymondferrero/',
+                        'updated_at' => now()
+                    ]
+                );
     }
 }
