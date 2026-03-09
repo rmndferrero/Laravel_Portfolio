@@ -111,9 +111,6 @@
                 <a class="text-slate-500 hover:text-primary transition-colors" href="{{ route('contact') }}">
                     <span class="material-symbols-outlined">mail</span>
                 </a>
-                <a class="text-slate-500 hover:text-primary transition-colors" href="{{ route('contact') }}">
-                    <span class="material-symbols-outlined">call</span>
-                </a>
             </div>
         </div>
     </footer>

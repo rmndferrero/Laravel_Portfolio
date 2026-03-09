@@ -7,10 +7,6 @@
         {{-- Social Media Icons --}}
         <div class="mb-8 flex justify-center gap-4">
             <a class="group flex h-12 w-12 items-center justify-center rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-primary hover:text-white transition-all shadow-sm"
-               href="{{ route('contact') }}">
-                <span class="material-symbols-outlined">share</span>
-            </a>
-            <a class="group flex h-12 w-12 items-center justify-center rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-primary hover:text-white transition-all shadow-sm"
                href="{{ route('projects') }}">
                 <span class="material-symbols-outlined">code</span>
             </a>
